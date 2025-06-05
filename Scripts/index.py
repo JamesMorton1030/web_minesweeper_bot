@@ -10,18 +10,19 @@ def open_minesweeper_website():
     webbrowser.open(url)
 
 def start_mine_script():
-    duration = 6  # Example: run for 60 seconds
-    start_time = time.time()
-    while time.time() - start_time < duration:
-        move_mouse_around_box()
+    move_mouse_around_box()
 
 def move_mouse_around_box():
     # Define the box coordinates (x1, y1, x2, y2)
     box = (100, 100, 200, 200)  # Example coordinates
 
     # Move the mouse around the box
+    start_time = time.time()
+    duration = 6  # Ensure the movement respects the duration limit
     for x in range(box[0], box[2] + 1):
         for y in range(box[1], box[3] + 1):
+            if time.time() - start_time >= duration:
+                return  # Exit the function if duration is exceeded
             pyautogui.moveTo(x, y)
             time.sleep(0.01)  # Small delay to visualize movement
 
