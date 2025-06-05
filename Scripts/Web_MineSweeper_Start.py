@@ -6,4 +6,3 @@ open_minesweeper_website()
 
 # Start the Minesweeper bot script
 start_mine_script()
-

@@ -6,23 +6,34 @@ import time
 
 def open_minesweeper_website():
     """Opens the default browser to www.minesweeper.com."""
-    url = "https://www.minesweeper.online/new-game"
+    url = "https://minesweeperonline.com/#beginner"
     webbrowser.open(url)
 
 def start_mine_script():
-    move_mouse_around_box()
+    find_start()
+    move_mouse_around_box(2)
+    
 
-def move_mouse_around_box():
+def move_mouse_around_box(duration):
     # Define the box coordinates (x1, y1, x2, y2)
-    box = (100, 100, 200, 200)  # Example coordinates
+    start_x, start_y = pyautogui.position()  # Get current mouse position
 
-    # Move the mouse around the box
-    start_time = time.time()
-    duration = 6  # Ensure the movement respects the duration limit
-    for x in range(box[0], box[2] + 1):
-        for y in range(box[1], box[3] + 1):
-            if time.time() - start_time >= duration:
-                return  # Exit the function if duration is exceeded
-            pyautogui.moveTo(x, y)
-            time.sleep(0.01)  # Small delay to visualize movement
+    for _ in range(5):
+        pyautogui.moveTo(start_x + 24, start_y)
+        start_x += 24  # Update the starting x-coordinate for the next move
+        time.sleep(0.5)  # Small delay between movements
 
+def find_start():
+    
+    try:
+        # Locate the cell with id "cell_8_8"
+        print("Searching for the Minesweeper cell...")
+        cell = pyautogui.locateOnScreen('images/beginnerSweeperBoard.png')
+        if cell:
+            print  (f"Cell found")
+            pyautogui.moveTo(cell.left + cell.width / 2, cell.top + cell.height / 2)
+            print("Cell found and mouse moved to its center.")
+        else:
+            print("Cell not found on the screen.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
